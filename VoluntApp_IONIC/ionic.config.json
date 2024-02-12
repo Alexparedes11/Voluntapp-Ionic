@@ -1,0 +1,7 @@
+{
+  "name": "VoluntApp_IONIC",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
