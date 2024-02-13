@@ -11,7 +11,7 @@ export const routes: Routes = [
   },
   {
     path: 'header',
-    loadComponent: () => import('./components/header/header.page').then( m => m.HeaderPage)
+    loadComponent: () => import('./components/headers/headers.component').then( m => m.HeadersComponent)
   },
   {
     path: 'event-card',

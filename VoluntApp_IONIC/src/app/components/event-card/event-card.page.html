@@ -1,16 +1,16 @@
-<ion-card class="bg-white">
-  <img style="width: 100%;" alt="Imagen de personas limpiando el bosque" src="../../../assets/images/limpiarbosque.jpg" />
+<ion-card class="bg-white m-3">
+  <img style="width: 100%;" alt="{{image}}" src={{image}} />
   <ion-card-header>
-    <ion-card-title class="text-black">Limpieza del bosque de muniellos</ion-card-title>
+    <ion-card-title class="text-black fw-bold fs-2" >Limpieza del bosque de muniellos</ion-card-title>
   </ion-card-header>
 
   <ion-card-content class="text-black">
-    <div class="creador">Manolo J.</div>
-    <div class="fechas">14/02/2024 - 18/02/2024</div>
+    <div class="fechas fs-6"><ion-icon name="calendar"></ion-icon> {{startDate | date: 'dd/MM/yyyy'}} - {{endDate | date: 'dd/MM/yyyy'}}</div>
+    <div class="fechas fs-6"><ion-icon name="location-sharp"></ion-icon> {{location}}</div>
   </ion-card-content>
 
-  <div class="d-flex justify-content-end m-2 gap-">
-   <ion-badge class="bg-primary d-flex align-content-center justify-content-center gap-1"><ion-icon class="text-white" name="person"></ion-icon>1</ion-badge>
+  <div class="d-flex justify-content-end m-2">
+   <ion-badge class="bg-primary d-flex align-content-center justify-content-center gap-1 fs-6"><ion-icon class="text-white" name="person"></ion-icon>{{numVolunteers}}</ion-badge>
   </div>
 
 </ion-card>

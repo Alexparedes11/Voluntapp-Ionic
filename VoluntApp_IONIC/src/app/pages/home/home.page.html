@@ -1,16 +1,21 @@
-<ion-card class="bg-white">
-  <img style="width: 100%;" alt="Imagen de personas limpiando el bosque" src="../../../assets/images/limpiarbosque.jpg" />
-  <ion-card-header>
-    <ion-card-title class="text-black">Limpieza del bosque de muniellos</ion-card-title>
-  </ion-card-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content color="primary" class="text-primary"></ion-refresher-content>
+  </ion-refresher>
 
-  <ion-card-content class="text-black">
-    <div class="creador">Manolo J.</div>
-    <div class="fechas">14/02/2024 - 18/02/2024</div>
-  </ion-card-content>
-
-  <div class="d-flex justify-content-end m-2 gap-">
-   <ion-badge class="bg-primary d-flex align-content-center justify-content-center gap-1"><ion-icon class="text-white" name="person"></ion-icon>1</ion-badge>
+<section>
+@for (event of events; track event.id) {
+  <div class="col">
+    <app-event-card [image]="event.imagen" [id]="event.id" [title]="event.titulo" [startDate]="event.finicio"
+      [endDate]="event.ffin" [location]="event.ubicacion.nombre" [numVolunteers]="event.numVoluntarios"
+      [createdByUser]="event.creadoPorUsuario" [createdByInstitution]="event.creadoPorInstitucion"></app-event-card>
   </div>
+}
+</section>
 
-</ion-card>
+<ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+  <ion-infinite-scroll-content loadingText="Cargando mas eventos..." loadingSpinner="bubbles"></ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
+
+<app-headers></app-headers>

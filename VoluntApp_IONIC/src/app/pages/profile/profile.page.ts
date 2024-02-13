@@ -4,14 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.page.html',
-  styleUrls: ['./header.page.scss'],
+  selector: 'app-profile',
+  templateUrl: './profile.page.html',
+  styleUrls: ['./profile.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-export class HeaderPage{
+export class ProfilePage implements OnInit {
 
   constructor() { }
-  
+
+  ngOnInit() {
+  }
+
 }
