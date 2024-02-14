@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { EventCardComponentComponent } from '../event-card-component/event-card-component.component';
 
+
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',

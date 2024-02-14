@@ -1,39 +1,53 @@
-import { Component } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
-import { UserPhoto, PhotoService } from '../../services/photo.service';
+import { Component, OnInit } from '@angular/core';
+import { ActionSheetController, InfiniteScrollCustomEvent, IonicModule } from '@ionic/angular';
+import { NewsService } from 'src/app/services/news.service';
+import { NewsDTO } from 'src/app/models/dto/NewsDTO';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TabsPageModule } from '../menu/tabs.module';
+
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
+  styleUrls: ['tab2.page.scss'],
+  standalone: true,
+  providers: [NewsService],
+  imports: [IonicModule, CommonModule, FormsModule, TabsPageModule, HttpClientModule],
 })
-export class Tab2Page {
+export class Tab2Page implements OnInit{
+[x: string]: any;
 
-  constructor(public photoService: PhotoService, public actionSheetController: ActionSheetController) {}
+  constructor(private newsService: NewsService, private http: HttpClient) { } 
+  news: NewsDTO[] = [];
+  items = [];
 
-  async ngOnInit() {
-    await this.photoService.loadSaved();
+  handleRefresh(data: any) {
+    setTimeout(() => {
+      data.target.complete();
+    }, 2000);
   }
 
-  public async showActionSheet(photo: UserPhoto, position: number) {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Photos',
-      buttons: [{
-        text: 'Delete',
-        role: 'destructive',
-        icon: 'trash',
-        handler: () => {
-          this.photoService.deletePicture(photo, position);
-        }
-      }, {
-        text: 'Cancel',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          // Nothing to do, action sheet is automatically closed
-         }
-      }]
-    });
-    await actionSheet.present();
+  onIonInfinite(ev: any) {
+    setTimeout(() => {
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
   }
+
+  ngOnInit(): void {
+    this.getAllEvents();
+  }
+  
+  private getAllEvents() {
+    this.newsService.getNews().subscribe(
+      (data) => {
+        this.news = data.content;
+      },
+      (error) => {
+        console.error('Error fetching events:', error);
+      }
+    );
+  }
+
 }
