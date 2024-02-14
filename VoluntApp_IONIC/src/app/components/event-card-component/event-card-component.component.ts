@@ -1,17 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { User } from 'src/app/models/User';
 
 @Component({
-  selector: 'app-event-card',
-  templateUrl: './event-card.page.html',
-  styleUrls: ['./event-card.page.scss'],
+  selector: 'app-event-card-component',
+  templateUrl: './event-card-component.component.html',
+  styleUrls: ['./event-card-component.component.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, DatePipe]
 })
-export class EventCardPage{
+export class EventCardComponentComponent{
 
   @Input() id: number | null = null;
   @Input() image: string | null = null;
@@ -26,6 +26,5 @@ export class EventCardPage{
 
   constructor() { }
 
- 
 
 }

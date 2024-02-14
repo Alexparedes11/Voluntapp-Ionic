@@ -34,7 +34,7 @@ export class LoginPage{
     this.userService.login(this.form.value).subscribe(
       (data: any) => {
         this.cookieService.set('token', data.token);
-        this.router.navigate(['/']);
+        this.router.navigate(['/menu/home']);
       },
       (error: any) => {
         console.error('Error al iniciar sesión:', error);
