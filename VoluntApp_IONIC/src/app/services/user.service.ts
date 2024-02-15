@@ -13,21 +13,21 @@ import { UserDTO } from '../models/dto/UserDTO';
 })
 export class UserService {
 
-  private baseUrl = environment.server.ip + ':' + environment.server.port;
+    private baseUrl = environment.server.ip + ':' + environment.server.port;
 
-  constructor(private cookieService: CookieService, private http: HttpClient) { }
+    constructor(private cookieService: CookieService, private http: HttpClient) { }
 
-  login(data: any) {
-    return this.http.post(`${this.baseUrl}/login`, data)
-  }
+    login(data: any) {
+      return this.http.post(`${this.baseUrl}/login`, data)
+    }
 
-  register(data: any) {
-    return this.http.post(`${this.baseUrl}/usuarios`, data)
-  }
+    register(data: any) {
+      return this.http.post(`${this.baseUrl}/usuarios`, data)
+    }
 
-  logout() {
+    logout() {
     this.cookieService.delete('token');
-  }
+    }
 
   getUserIdFromToken(): number {
     const token = this.cookieService.get('token');

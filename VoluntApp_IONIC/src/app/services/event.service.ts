@@ -102,4 +102,12 @@ export class EventService {
     return this.http.get<boolean>(`${this.baseUrl}/eventos/esCreador/${idUser}/${idEvent}`);
   }
 
+  obtenerEventosPerfil(id: number) {
+    return this.http.get(`${this.baseUrl}/eventos/profile/${id}`).pipe(
+      map((data: any) => {
+        return data;
+      })
+    );
+  }
+
 }
