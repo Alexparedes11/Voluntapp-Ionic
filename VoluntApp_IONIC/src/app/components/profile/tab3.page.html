@@ -1,3 +1,5 @@
+@if (logueado === true){
+
 <ion-content>
     <div class="d-flex flex-column align-items-center">
         <img src="/assets/images/bannerprofile.jpg" class="img-fluid imagenbanner" alt="VoluntApp banner" />
@@ -10,21 +12,22 @@
         <h2 class="text-center sombras fw-bold">{{user.nombre}} {{user.apellidos}}</h2>
         <div class="row">
           <div class="col-s-auto">
-            <h5 class="text-center text-primary fw-bold">{{eventosPerfil.creados}}1</h5>
+            <h5 class="text-center text-primary fw-bold">{{eventosPerfil.creados}}</h5>
             <h5 class="text-center">Eventos Creados</h5>
           </div>
           <div class="col-s-auto">
-            <h5 class="text-center text-primary fw-bold">{{eventosPerfil.apuntados}}1</h5>
+            <h5 class="text-center text-primary fw-bold">{{eventosPerfil.apuntados}}</h5>
             <h5 class="text-center">Eventos Apuntados</h5>
           </div>
           <div class="col-s-auto">
-            <h5 class="text-center text-primary fw-bold">{{eventosPerfil.realizados}}1</h5>
+            <h5 class="text-center text-primary fw-bold">{{eventosPerfil.realizados}}</h5>
             <h5 class="text-center">Eventos Realizados</h5>
           </div>
         </div>
-      
 
-      <ion-button id="present-alert" class="mt-5">Cerrar sesion</ion-button>
+      <ion-button id="present-alert" class="mt-4">Cerrar sesion</ion-button>
       <ion-alert trigger="present-alert" class="custom-alert" header="¿Quieres cerrar sesion?" [buttons]="alertButtons"></ion-alert>
     </div>
 </ion-content>
+
+}

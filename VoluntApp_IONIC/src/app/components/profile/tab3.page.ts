@@ -15,51 +15,67 @@ import { RouterModule } from '@angular/router';
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
   standalone: true,
-  providers: [ProfileService, UserService, EventService ],
-  imports: [HttpClientModule, NgIf, NgClass, IonicModule, RouterModule]
+  providers: [ProfileService, UserService, EventService],
+  imports: [HttpClientModule, NgIf, NgClass, IonicModule, RouterModule],
 })
-export class Tab3Page implements OnInit{
+
+export class Tab3Page implements OnInit {
+  constructor(
+    private profileService: ProfileService,
+    private userService: UserService,
+    private eventoService: EventService
+  ) {}
 
   userId: number = -1;
   editarperfil: boolean = false;
   user: UserDTO = {} as UserDTO;
   event: EventDTO[] = [];
   eventosPerfil: NumeroDeEventosDTO = {} as NumeroDeEventosDTO;
+  logueado = false;
 
-    constructor (private profileService: ProfileService, private userService: UserService, private eventoService: EventService) { }
+  //Funcion cerrar sesion
 
-    logout() {
-      this.userService.logout();
-    }
-
-    volverlogin() {
-      window.location.href = '/login';
-    }
-
-    ngOnInit(): void {
-
-      this.userId = this.userService.getUserIdFromToken();
-      
-      this.eventoService.obtenerEventosPerfil(this.userId).subscribe(
-        (data) => {
-          console.log(data);
-          this.eventosPerfil = data;
-        },
-        (error) => {
-          console.error('Error fetching events:', error);
-        }
-      );
-
-      this.profileService.getData(this.userId).subscribe(
-        (data) => {
-          console.log(data);
-          this.user = data;
-        },
-        (error) => {
-          console.error('Error fetching events:', error);
-        }
-      );
+  logout() {
+    this.userService.logout();
   }
+
+  //Funcion para volver al login
+
+  volverlogin() {
+    window.location.href = '/login';
+  }
+
+  ngOnInit(): void {
+    this.userId = this.userService.getUserIdFromToken();
+    this.logueado = this.userService.isLogged();
+
+    if (this.logueado === false) {
+      this.volverlogin();
+    }
+
+    this.eventoService.obtenerEventosPerfil(this.userId).subscribe(
+      (data) => {
+        console.log(data);
+        this.eventosPerfil = data;
+      },
+      (error) => {
+        console.error('Error fetching events:', error);
+      }
+    );
+
+    this.profileService.getData(this.userId).subscribe(
+      (data) => {
+        console.log(data);
+        this.user = data;
+      },
+      (error) => {
+        console.error('Error fetching events:', error);
+      }
+    );
+  }
+
+  //Boton de alerta para cerrar sesion
+
   public alertButtons = [
     {
       userService: UserService,
@@ -74,7 +90,7 @@ export class Tab3Page implements OnInit{
       role: 'confirm',
       handler: () => {
         console.log('Alert confirmed');
-        this.logout( );
+        this.logout();
         this.volverlogin();
       },
     },

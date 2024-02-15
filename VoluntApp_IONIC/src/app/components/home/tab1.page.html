@@ -1,13 +1,15 @@
+@if (logueado === true){
+
 <ion-content>
+
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content
-      color="primary"
-      class="text-primary"
-    ></ion-refresher-content>
+    <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <section>
+
     @for (event of events; track event.id) {
+
     <div class="col">
       <app-event-card-component
         [image]="event.imagen"
@@ -21,7 +23,9 @@
         [createdByInstitution]="event.creadoPorInstitucion"
       ></app-event-card-component>
     </div>
+
     }
+
   </section>
 
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
@@ -31,3 +35,5 @@
     ></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
+
+}

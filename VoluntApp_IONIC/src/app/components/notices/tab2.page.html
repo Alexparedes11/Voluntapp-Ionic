@@ -1,8 +1,8 @@
+@if (logueado === true){
+
 <ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content
-      color="primary"
-      class="text-primary"
     ></ion-refresher-content>
   </ion-refresher>
 
@@ -26,3 +26,5 @@
     ></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
+
+}

@@ -7,67 +7,71 @@ import { EventDTO } from 'src/app/models/dto/EventDTO';
 import { TabsPageModule } from 'src/app/components/menu/tabs.module';
 import { EventCardComponentComponent } from '../event-card-component/event-card-component.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   standalone: true,
-  providers: [EventService],
-  imports: [IonicModule, CommonModule, FormsModule, TabsPageModule, EventCardComponentComponent, HttpClientModule],
+  providers: [EventService, UserService],
+  imports: [
+    IonicModule,
+    EventCardComponentComponent,
+    HttpClientModule,
+  ],
 })
 export class Tab1Page implements OnInit {
+  constructor(
+    private eventService: EventService,
+    private userService: UserService
+  ) {}
 
-  constructor(private eventService: EventService, private http: HttpClient) { } 
   events: EventDTO[] = [];
-  items = [];
+  logueado = false;
+
+  //Funcion para refrescar la pagina
 
   handleRefresh(data: any) {
     setTimeout(() => {
-      // Any calls to load data go here
+      location.reload();
       data.target.complete();
-    }, 2000);
+    }, 1500);
   }
+
+  //Funcion para "cargar mas eventos"
 
   onIonInfinite(ev: any) {
-    this.generate6();
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
-    }, 500);
+    }, 1500);
   }
 
-  ngOnInit(): void {
-    this.getAllEvents();
-  }
-  
+  //Funcion para obtener todos los eventos
+
   private getAllEvents(pageNumber: number = 0) {
-    this.eventService.getEventsByState("disponible", pageNumber).subscribe(
+    this.eventService.getEventsByState('disponible', pageNumber).subscribe(
       (data) => {
         this.events.push(...data.content);
-  
-        if (data.last === false) {
-          
-          this.getAllEvents(pageNumber + 1);
-        } else {
-          
-          this.generate6();
-        }
       },
       (error) => {
         console.error('Error fetching events:', error);
       }
     );
   }
-  
-  private generate6() {
-    if (this.events.length >= 4) { // Verifica si hay al menos 4 eventos
-      const count = this.events.length;
-      for (let i = 0; i < 5; i++) {
-        this.items.push(this.events[i] as never);
-      }
-    } else {
-      console.error('Error: Not enough events to generate 6 items.');
-    }
+
+  //Funcion para volver al login
+
+  volverlogin() {
+    window.location.href = '/login';
   }
 
+  ngOnInit(): void {
+    this.getAllEvents();
+    this.logueado = this.userService.isLogged();
+
+    if (this.logueado === false) {
+      this.volverlogin();
+    }
+  }
 }
