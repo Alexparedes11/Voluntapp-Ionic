@@ -4,7 +4,8 @@ export interface UserDTO {
     apellidos: string;
     email: string;
     telefono: string;
-    imagen: string;
+    fotoPerfil: string;
+    fotoBanner: string;
     dni: string;
     direccion: string;
 }

@@ -2,9 +2,9 @@
 
 <ion-content>
     <div class="d-flex flex-column align-items-center">
-        <img src="/assets/images/bannerprofile.jpg" class="img-fluid imagenbanner" alt="VoluntApp banner" />
+        <img [src]="user.fotoBanner" class="img-fluid imagenbanner" alt="Foto banner perfil" />
         <div class="editarperfil text-center d-flex align-items-center flex-column">
-          <img src="/assets/images/montana.jpg" class="rounded-circle img-perfil"
+          <img [src]="user.fotoPerfil" class="rounded-circle img-perfil"
             style="position: absolute; transform: translateY(-50%);" alt="Imagen de perfil" />
         </div>
       </div>
