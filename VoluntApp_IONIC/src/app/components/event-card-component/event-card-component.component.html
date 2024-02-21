@@ -1,5 +1,5 @@
-<a [href]="'/menu/event-details/' + id">
-<ion-card class="bg-white m-3">
+
+<ion-card [routerLink]="['/menu/event-details',id]" class="bg-white m-3">
   <img style="width: 100%;" alt="{{image}}" src={{image}} />
   <ion-card-header>
     <ion-card-title class="text-black fw-bold fs-2" >{{title}}</ion-card-title>
@@ -15,4 +15,3 @@
   </div>
 
 </ion-card>
-</a>

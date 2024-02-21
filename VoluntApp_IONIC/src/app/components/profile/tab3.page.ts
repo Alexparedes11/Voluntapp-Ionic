@@ -24,10 +24,14 @@ export class Tab3Page implements OnInit {
     private eventoService: EventService
   ) {}
 
+  selectedProfileImage: string | null = null;
+  selectedBannerImage: string | null = null;
   userId: number = -1;
+  tipo: string = "";
   editarperfil: boolean = false;
   user: UserDTO = {} as UserDTO;
   event: EventDTO[] = [];
+  editedUser: UserDTO | null = null;
   eventosPerfil: NumeroDeEventosDTO = {} as NumeroDeEventosDTO;
   logueado = false;
 
@@ -43,34 +47,60 @@ export class Tab3Page implements OnInit {
     window.location.href = '/login';
   }
 
+  onProfileImageSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.selectedProfileImage = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onBannerImageSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.selectedBannerImage = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   ngOnInit(): void {
-    this.userId = this.userService.getUserIdFromToken();
+    this.tipo = this.userService.getUserTypeFromToken();
     this.logueado = this.userService.isLogged();
 
     if (this.logueado === false) {
       this.volverlogin();
     }
 
-    this.eventoService.obtenerEventosPerfil(this.userId).subscribe(
-      (data) => {
-        console.log(data);
-        this.eventosPerfil = data;
-      },
-      (error) => {
-        console.error('Error fetching events:', error);
-      }
-    );
+    if (this.tipo == "Usuario") {
 
-    this.userService.getUserById(this.userId).subscribe(
-      (data) => {
-        console.log(data);
-        this.user = data;
-      },
-      (error) => {
-        console.error('Error fetching events:', error);
-      }
-    );
-  }
+      this.userId = this.userService.getUserIdFromToken();
+
+      this.eventoService.obtenerEventosPerfil(this.userId).subscribe(
+        (data) => {
+          console.log(data);
+          this.eventosPerfil = data;
+        },
+        (error) => {
+          console.error('Error fetching events:', error);
+        }
+      );
+
+      this.userService.getUserById(this.userId).subscribe( // Cambiar profileService a userService
+        (data) => {
+          console.log(data);
+          this.user = data;
+        },
+        (error) => {
+          console.error('Error fetching user data:', error); // Cambiar 'Error fetching events:' a 'Error fetching user data:'
+        }
+      );
+  }}
 
   //Boton de alerta para cerrar sesion
 

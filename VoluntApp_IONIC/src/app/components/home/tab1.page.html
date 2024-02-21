@@ -8,6 +8,16 @@
 
   <section>
 
+  <div class="d-flex m-3">
+    <input #seachInput class="p-1 form-control shadow-none" type="text" placeholder="Buscar..." />
+    <button class="btn btn-primary fs-6 text-center justify-content-center align-items-center d-flex" type="button" id="btn-buscar" (click)="filterEventsBySearch(seachInput.value)">
+      <ion-icon name="search"></ion-icon>
+    </button>
+  </div>
+
+  @if (events.length !== 0) {
+    
+      
     @for (event of events; track event.id) {
 
     <div class="col">
@@ -26,7 +36,14 @@
 
     }
 
-  </section>
+  
+  } @else {
+  <h1 class="text-center text-white fw-bold mt-5">
+    No hay eventos disponibles
+  </h1>
+}
+
+</section>
 
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content

@@ -3,13 +3,14 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { User } from 'src/app/models/User';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-event-card-component',
   templateUrl: './event-card-component.component.html',
   styleUrls: ['./event-card-component.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, DatePipe]
+  imports: [IonicModule, CommonModule, FormsModule, DatePipe, RouterModule]
 })
 export class EventCardComponentComponent{
 

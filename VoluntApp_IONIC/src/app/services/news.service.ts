@@ -49,6 +49,6 @@ import { environment } from '../../environments/environment';
           return data;
         })
       );
-    }dad
+    }
 
   }

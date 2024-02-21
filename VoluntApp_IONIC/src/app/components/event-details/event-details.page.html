@@ -1,69 +1,98 @@
-<main class="container p-4 text-white">
-  <h1 class="fw-bold d-flex align-items-center gap-3">{{event.titulo}}<span
-          class="badge bg-secondary-dark fs-5">{{event.numVoluntarios}}
-          🙋‍♂️</span>
-      @if(event.estado==='revision') {
-      <span class="badge bg-error-light fs-5">En revisión</span>
-      } @else if (event.estado === 'finalizado') {
-      <span class="badge bg-error-light fs-5">Finalizado</span>
-      }
-  </h1>
-  <section class="grid-container">
-      <div class="area1">
-          <img class="rounded w-100" [src]="event.imagen" alt="">
-      </div>
-      <div class="area2">
-          @if (event.ubicacion) {
-          <app-map [lat]="event.ubicacion.lat" [lon]="event.ubicacion.lon"></app-map>
-          }
-      </div>
-      <div class="area3 d-flex flex-column justify-content-between">
-          <article class="d-flex flex-column gap-3">
-              <section>
-                  <h2 class="fw-semibold">Descripción</h2>
-                  <p>{{event.descripcion}}</p>
-              </section>
-              <section>
-                  <h2 class="fw-semibold">Información</h2>
-                  <span class="d-block">📅 Inicia el <b>{{event.finicio | date: 'dd/MM/yyyy'}}</b> a las
-                      <b>{{event.finicio | date: 'shortTime'}}</b></span>
-                  <span class="d-block">📅 Acaba el <b>{{event.ffin| date: 'dd/MM/yyyy'}}</b> a las
-                      <b>{{event.ffin | date: 'shortTime'}}</b></span>
-                  <span class="d-block">🙌 Se necesitan <b>{{event.maxVoluntarios}} voluntarios</b></span>
-              </section>
-              <section>
-                  <h2 class="fw-semibold">Organizador</h2>
-                  <span class="d-block">👤 {{event.creadoPorUsuario || event.creadoPorInstitucion}}</span>
-              </section>
-              <section>
-                  <h2 class="fw-semibold">Ubicación</h2>
-                  @if (event.ubicacion) {
-                  <span class="d-block">📍 {{event.ubicacion.nombre}}</span>
-                  }
-              </section>
-          </article>
-        
-              @if (isLogged) {
-                  @if (isUserInEvent) {
-                      @if (isCreator && tipo === "Usuario" || tipo === "Admin") {
-                          } @if (event.estado === 'revision') {
-                          <button (click)="deleteEvent()" class="btn bg-error-dark text-white w-100">Eliminar</button>
-                          }
-                      } @else if (tipo === "Usuario") {
-                          <button (click)="removeUserFromEvent()" class="btn bg-error-light text-white w-100">Desapuntarse</button>
-                      }
-                  } @else if (tipo === "Usuario") {
-                          <button (click)="addUserToEvent()" class="btn bg-secondary text-white w-100">Apúntate</button>
-                  }
-                  @if (isInstitucionInEvent) {
-                      <button (click)="removeInstitucionFromEvent()" class="btn bg-error-light text-white w-100">Dejar de apoyar</button>
-                  } @else if (tipo === "Institucion") {
-                      <button (click)="addInstitucionToEvent()" class="btn bg-secondary text-white w-100">Apoyar Evento</button>
-                  }
-              @else {
-                  <a href="/login" class="btn bg-secondary text-white w-100">Inicia sesión para apuntarte</a>
-              }
+@if (logueado === true){
+
+    <ion-content>
+    
+      <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+    
+      <section>
+
+        <ion-card class="p-3 m-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <ion-card-title class="fw-bold fs-2">{{event.titulo}}</ion-card-title>
+
+                <div class="d-flex justify-content-end m-2">
+                <ion-badge class="bg-primary d-flex align-content-center justify-content-center gap-1 fs-6"><ion-icon class="text-white" name="person"></ion-icon>{{event.numVoluntarios}}</ion-badge>
+                </div>
+            </div>
+
+            <img  [src]="event.imagen" alt={{event.titulo}}>
             
-      </div>
-  </section>
-</main>
+          
+            <ion-card-content class="descripcion">
+                <h2 class="fw-semibold">Descripción</h2>
+                <p>{{event.descripcion}}</p>
+            </ion-card-content>
+
+            <ion-card-content class="informacion">
+                <h2 class="fw-semibold">Información</h2>
+                            <span class="d-block">📅 Inicia el <b>{{event.finicio | date: 'dd/MM/yyyy'}}</b> a las
+                                <b>{{event.finicio | date: 'shortTime'}}</b></span>
+                            <span class="d-block">📅 Acaba el <b>{{event.ffin| date: 'dd/MM/yyyy'}}</b> a las
+                                <b>{{event.ffin | date: 'shortTime'}}</b></span>
+                            <span class="d-block">🙌 Se necesitan <b>{{event.maxVoluntarios}} voluntarios</b></span>
+            </ion-card-content>
+
+            <ion-card-content class="organizador">
+                <h2 class="fw-semibold">Organizador</h2>
+                            <span class="d-block">👤 {{event.creadoPorUsuario || event.creadoPorInstitucion}}</span>
+            </ion-card-content>
+
+            <ion-card-content class="ubicacion">
+                <h2 class="fw-semibold">Ubicación</h2>
+                @if (event.ubicacion) {
+                <app-map [lat]="event.ubicacion.lat" [lon]="event.ubicacion.lon"></app-map>
+                <span class="d-block">📍 {{event.ubicacion.nombre}}</span>
+                }
+            </ion-card-content>
+
+            @if (isLogged === true) {
+
+                @if (isUserInEvent) {
+
+                    @if (isCreator && tipo === "Usuario" || tipo === "Admin") {
+                        @if (event.estado === 'disponible') {
+                            <button (click)="requestEventElimination()" class="btn bg-error-dark text-white w-100">Solicitar
+                                eliminación</button>
+                        } @else if (event.estado === 'revision') {
+                            <button (click)="deleteEvent()" class="btn bg-error-dark text-white w-100">Eliminar</button>
+                        }
+                    } @else if (tipo === "Usuario") {
+                        <button (click)="removeUserFromEvent()" class="btn bg-error-light text-white w-100">Desapuntarse</button>
+                    }
+                } @else if (tipo === "Usuario") {
+                        <button (click)="addUserToEvent()" class="btn bg-secondary text-white w-100">Apúntate</button>
+                }
+
+                @if (isInstitucionInEvent) {
+                    <button (click)="removeInstitucionFromEvent()" class="btn bg-error-light text-white w-100">Dejar de apoyar</button>
+                } @else if (tipo === "Institucion") {
+                    <button (click)="addInstitucionToEvent()" class="btn bg-secondary text-white w-100">Apoyar Evento</button>
+                }
+            }
+            @else {
+                <a href="/login" class="btn bg-secondary text-white w-100">Inicia sesión para apuntarte</a>
+            }
+
+          </ion-card>
+
+    
+            
+            
+                  
+                        
+                      
+              
+            </section>
+
+    
+       
+    
+      
+    
+    </ion-content>
+    
+    }
+
+

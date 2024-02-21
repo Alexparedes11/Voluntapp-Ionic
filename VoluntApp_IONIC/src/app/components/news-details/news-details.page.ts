@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { NewsDTO } from 'src/app/models/dto/NewsDTO';
 import { NewsService } from 'src/app/services/news.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-news-details',
   templateUrl: './news-details.page.html',
   styleUrls: ['./news-details.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule,  HttpClientModule]
 })
 export class NewsDetailsPage implements OnInit {
   constructor(private newsService: NewsService) { }
