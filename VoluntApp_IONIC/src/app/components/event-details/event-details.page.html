@@ -51,24 +51,21 @@
 
                 @if (isUserInEvent) {
 
-                    @if (isCreator && tipo === "Usuario" || tipo === "Admin") {
-                        @if (event.estado === 'disponible') {
-                            <button (click)="requestEventElimination()" class="btn bg-error-dark text-white w-100">Solicitar
-                                eliminación</button>
-                        } @else if (event.estado === 'revision') {
-                            <button (click)="deleteEvent()" class="btn bg-error-dark text-white w-100">Eliminar</button>
-                        }
-                    } @else if (tipo === "Usuario") {
-                        <button (click)="removeUserFromEvent()" class="btn bg-error-light text-white w-100">Desapuntarse</button>
+                    @if (tipo === "Usuario") {
+                        <button id="desapuntarte" class="btn bg-error-light text-white w-100">Desapuntarse</button>
+                        <ion-alert trigger="desapuntarte" class="custom-alert" header="¿Quieres desapuntarte del evento?" [buttons]="alertDesapuntarse"></ion-alert>
                     }
                 } @else if (tipo === "Usuario") {
-                        <button (click)="addUserToEvent()" class="btn bg-secondary text-white w-100">Apúntate</button>
+                        <button id="apuntarse" class="btn bg-secondary text-white w-100">Apúntate</button>
+                        <ion-alert trigger="apuntarse" class="custom-alert" header="¿Quieres apuntarte al evento?" [buttons]="alertApuntarse"></ion-alert>
                 }
 
                 @if (isInstitucionInEvent) {
-                    <button (click)="removeInstitucionFromEvent()" class="btn bg-error-light text-white w-100">Dejar de apoyar</button>
+                    <button id="desapoyar" class="btn bg-error-light text-white w-100">Dejar de apoyar</button>
+                    <ion-alert id="desapoyar" trigger="apuntarse" class="custom-alert" header="¿Quieres dejar de apoyar el evento?" [buttons]="alertDesapoyar"></ion-alert>
                 } @else if (tipo === "Institucion") {
-                    <button (click)="addInstitucionToEvent()" class="btn bg-secondary text-white w-100">Apoyar Evento</button>
+                    <button id="apoyar" class="btn bg-secondary text-white w-100">Apoyar Evento</button>
+                    <ion-alert trigger="apoyar" class="custom-alert bg-white" header="¿Quieres apoyar el evento?" [buttons]="alertApoyar"></ion-alert>
                 }
             }
             @else {

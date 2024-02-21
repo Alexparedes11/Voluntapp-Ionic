@@ -67,7 +67,6 @@ export class EventDetailsPage implements OnInit {
       }
     );
     this.isUserInEvent = true;
-    alert("Te has unido al evento correctamente");
 
   }
 
@@ -81,7 +80,6 @@ export class EventDetailsPage implements OnInit {
       }
     );
     this.isInstitucionInEvent = true;
-    alert("Te has unido al evento correctamente");
 
   }
 
@@ -116,101 +114,7 @@ export class EventDetailsPage implements OnInit {
     this.router.navigate(['/myevents']);
   }
 
-  requestEventElimination() {
-    // Crea un contenedor div para personalizar el estilo del alert
-    const alertContainer = document.createElement("div");
-    alertContainer.style.position = "fixed";
-    alertContainer.style.top = "50%";
-    alertContainer.style.left = "50%";
-    alertContainer.style.transform = "translate(-50%, -50%)";
-    alertContainer.style.borderRadius = "5px";
-    alertContainer.style.textAlign = "right";
-    alertContainer.classList.add('bg-white', 'rounded', 'p-4');
-
-    // Crea un título
-    const title = document.createElement("h3");
-    title.textContent = "¿Estás seguro de solicitar la eliminación?";
-    title.style.marginBottom = "15px";
-    title.classList.add('fw-semibold', 'text-black');
-    alertContainer.appendChild(title);
-
-    // Crea un área de texto para que el usuario ingrese los motivos
-    const motivosInput = document.createElement("textarea");
-    motivosInput.placeholder = "Ingrese los motivos aquí...";
-    motivosInput.style.width = "100%";
-    motivosInput.style.height = "100px";
-    motivosInput.style.marginBottom = "10px";
-    alertContainer.appendChild(motivosInput);
-
-
-
-    // Crea un botón de cancelar
-    const cancelButton = document.createElement("button");
-    cancelButton.textContent = "Cancelar";
-    cancelButton.style.backgroundColor = "#890101";
-    cancelButton.style.color = "#fff";
-    cancelButton.style.padding = "8px 15px";
-    cancelButton.style.border = "none";
-    cancelButton.style.borderRadius = "3px";
-    cancelButton.style.cursor = "pointer";
-    cancelButton.addEventListener("click", () => {
-      // Cierra el alert sin hacer nada
-      document.body.removeChild(alertContainer);
-    });
-    alertContainer.appendChild(cancelButton);
-    // Crea un botón de confirmación
-    const confirmButton = document.createElement("button");
-    confirmButton.textContent = "Confirmar";
-    confirmButton.style.backgroundColor = "#386641";
-    confirmButton.style.color = "#fff";
-    confirmButton.style.padding = "8px 15px";
-    confirmButton.style.border = "none";
-    confirmButton.style.cursor = "pointer";
-    confirmButton.style.marginLeft = "10px";
-    confirmButton.classList.add('bg-secondary', 'rounded')
-    confirmButton.addEventListener("click", () => {
-      // Obtiene el email del usuario
-
-
-
-      // Guarda los motivos en la variable
-      const motivosEliminacion = motivosInput.value;
-      let user: UserDTO;
-      this.userService.getUserById(this.userId).subscribe((userData) => {
-        user = userData;
-        // Enviar los motivos de eliminación
-
-
-        this.eventService.sendDeleteRequest({
-          email: user.email,
-          asunto: "Motivos de eliminacion: ",
-          mensaje: motivosEliminacion + " - Evento: " + this.id
-
-        }).subscribe(response => {
-          alert("Solicitud de eliminación enviada correctamente");
-        });
-      });
-
-      // Actualizar el estado a "en-eliminacion"
-      this.eventService.updateEventState(this.id, "en-eliminacion").subscribe(
-        () => {
-          // Cierra el alert después de que la actualización sea exitosa
-          document.body.removeChild(alertContainer);
-        },
-        (error) => {
-          console.error('Error al actualizar el estado del evento:', error);
-
-          // Manejar el error aquí si es necesario
-
-          // Cierra el alert incluso si hay un error
-          document.body.removeChild(alertContainer);
-        }
-      );
-    });
-    alertContainer.appendChild(confirmButton);
-
-    document.body.appendChild(alertContainer);
-  }
+  
   
   ngOnInit(): void {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -274,4 +178,75 @@ export class EventDetailsPage implements OnInit {
       }
     }
   }
+  public alertApuntarse = [
+    {
+      text: 'No',
+      role: 'cancel',
+      handler: () => {
+        console.log('Alert canceled');
+      },
+    },
+    {
+      text: 'Si',
+      role: 'confirm',
+      handler: () => {
+        console.log('Alert confirmed');
+        this.addUserToEvent();
+      },
+    },
+  ];
+
+  public alertDesapuntarse = [
+    {
+      text: 'No',
+      role: 'cancel',
+      handler: () => {
+        console.log('Alert canceled');
+      },
+    },
+    {
+      text: 'Si',
+      role: 'confirm',
+      handler: () => {
+        console.log('Alert confirmed');
+        this.removeUserFromEvent();
+      },
+    },
+  ];
+
+  public alertApoyar = [
+    {
+      text: 'No',
+      role: 'cancel',
+      handler: () => {
+        console.log('Alert canceled');
+      },
+    },
+    {
+      text: 'Si',
+      role: 'confirm',
+      handler: () => {
+        console.log('Alert confirmed');
+        this.addInstitucionToEvent();
+      },
+    },
+  ];
+
+  public alertDesapoyar= [
+    {
+      text: 'No',
+      role: 'cancel',
+      handler: () => {
+        console.log('Alert canceled');
+      },
+    },
+    {
+      text: 'Si',
+      role: 'confirm',
+      handler: () => {
+        console.log('Alert confirmed');
+        this.removeInstitucionFromEvent();
+      },
+    },
+  ];
 }
