@@ -21,6 +21,16 @@ export const routes: Routes = [
         ]
       },
       {
+        path: 'apuntados',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../apuntados/tab4.module').then(m => m.Tab4PageModule)
+          }
+        ]
+      },
+      {
         path: 'notices',
         children: [
           {
@@ -50,7 +60,7 @@ export const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/menu/home',
+        redirectTo: '/login',
         pathMatch: 'full'
       }
     ]

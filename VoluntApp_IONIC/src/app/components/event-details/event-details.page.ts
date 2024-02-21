@@ -6,10 +6,8 @@ import { EventService } from 'src/app/services/event.service';
 import { UserService } from 'src/app/services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventDTO } from 'src/app/models/dto/EventDTO';
-import { map } from 'rxjs';
 import { MapComponent } from '../map/map.component';
 import { HttpClientModule } from '@angular/common/http';
-import { UserDTO } from 'src/app/models/dto/UserDTO';
 
 @Component({
   selector: 'app-event-details',
@@ -21,13 +19,10 @@ import { UserDTO } from 'src/app/models/dto/UserDTO';
 })
 export class EventDetailsPage implements OnInit {
 
-  id: any;
-  logueado = false;
+  constructor(private eventService: EventService, private userService: UserService, 
+              private router: Router, private activatedRoute: ActivatedRoute) { }
 
-  constructor(private eventService: EventService, private userService: UserService, private router: Router, 
-              private activatedRoute: ActivatedRoute) { }
-
-
+  id: any;          
   tipo: string = "";
   userId: number = -1;
   isUserInEvent: boolean = false;
@@ -35,8 +30,9 @@ export class EventDetailsPage implements OnInit {
   isLogged: boolean = false;
   isAdmin: boolean = false;
   isCreator: boolean = false;
-
   event: EventDTO = {} as EventDTO;
+
+  //Funcion para refrescar la pagina
 
   handleRefresh(data: any) {
     setTimeout(() => {
@@ -53,9 +49,13 @@ export class EventDetailsPage implements OnInit {
     }, 1500);
   }
 
+  //Funcion para obtener todos los eventos
+
   volverlogin() {
     window.location.href = '/login';
   }
+
+  //Funcion para apuntarse a un evento 
 
   addUserToEvent() {
     this.eventService.addUserToEvent(this.userId, this.id).subscribe(
@@ -67,8 +67,9 @@ export class EventDetailsPage implements OnInit {
       }
     );
     this.isUserInEvent = true;
-
   }
+
+  //Funcion para apoyar a un evento
 
   addInstitucionToEvent() {
     this.eventService.addInstitutionToEvent(this.userId, this.id).subscribe(
@@ -80,8 +81,9 @@ export class EventDetailsPage implements OnInit {
       }
     );
     this.isInstitucionInEvent = true;
-
   }
+
+  //Funcion para desapuntarse de un evento
 
   removeUserFromEvent() {
     this.eventService.removeUserFromEvent(this.userId, this.id).subscribe(
@@ -93,8 +95,9 @@ export class EventDetailsPage implements OnInit {
       }
     );
     this.isUserInEvent = false;
-
   }
+
+  //Funcion para desapoyar a un evento
 
   removeInstitucionFromEvent() {
     this.eventService.removeInstitutionFromEvent(this.userId, this.id).subscribe(
@@ -106,27 +109,20 @@ export class EventDetailsPage implements OnInit {
       }
     );
     this.isInstitucionInEvent = false;
-
   }
 
-  deleteEvent() {
-    this.eventService.updateEventState(this.id, "eliminado").subscribe();
-    this.router.navigate(['/myevents']);
-  }
-
-  
-  
   ngOnInit(): void {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.isAdmin = this.userService.isAdmin();
     this.userId = this.userService.getUserIdFromToken();
     this.tipo = this.userService.getUserTypeFromToken();
+    this.isLogged = this.userService.isLogged();
 
     console.log(this.tipo);
 
-    this.logueado = this.userService.isLogged();
+    
 
-    if (this.logueado === false) {
+    if (this.isLogged === false) {
       this.volverlogin();
     }
 
@@ -138,8 +134,6 @@ export class EventDetailsPage implements OnInit {
         console.error('Error fetching events:', error);
       }
     );
-
-    this.isLogged = this.userService.isLogged();
 
     if (this.isLogged) {
 
@@ -178,6 +172,9 @@ export class EventDetailsPage implements OnInit {
       }
     }
   }
+
+  //Alerts
+
   public alertApuntarse = [
     {
       text: 'No',

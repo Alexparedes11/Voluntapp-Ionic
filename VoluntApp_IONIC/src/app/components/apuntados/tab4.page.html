@@ -8,13 +8,6 @@
 
   <section>
 
-  <div class="d-flex m-3 gap-1">
-    <input #seachInput class="p-1 form-control shadow-none bordes" type="text" placeholder="Buscar..." />
-    <button class="btn btn-primary fs-6 text-center justify-content-center align-items-center d-flex bordes2" type="button" id="btn-buscar" (click)="filterEventsBySearch(seachInput.value)">
-      <ion-icon name="search"></ion-icon>
-    </button>
-  </div>
-
   @if (events.length !== 0) {
     
       
@@ -38,9 +31,12 @@
 
   
   } @else {
+    <div class="continer text-center p-3 mt-5">
   <h1 class="text-center text-white fw-bold mt-5">
-    No hay eventos disponibles
+    No estas apuntado en ningun evento
   </h1>
+  <a href="/menu/home" class="btn btn-primary text-white">Busca alguno</a>
+</div>
 }
 
 </section>
