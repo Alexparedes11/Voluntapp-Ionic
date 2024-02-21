@@ -1,8 +1,8 @@
 <ion-card [routerLink]="['/menu/event-details',id]" class=" m-3">
 
-  <!-- @if (nombreInstituciones?.length !== 0) {
+  @if (nombreInstituciones?.length !== 0) {
     <span class="position-absolute bg-secondary w-100 text-white text-center py-1 rounded-top">Apoyado por <b>{{currentInstitution}}</b> 🤝</span>
-  } -->
+  }
   <img style="width: 100%;" alt="{{image}}" src={{image}} />
   <ion-card-header>
     <ion-card-title class="fs-2 rotura" >{{title}}</ion-card-title>

@@ -52,19 +52,6 @@ tipo: string = "";
     }, 1500);
   }
 
-  //Funcion para obtener todos los eventos
-
-  private getAllEvents(pageNumber: number = 0) {
-    this.eventService.getEventsByState('disponible', pageNumber).subscribe(
-      (data) => {
-        this.events.push(...data.content);
-      },
-      (error) => {
-        console.error('Error fetching events:', error);
-      }
-    );
-  }
-
   //Funcion para volver al login
 
   volverlogin() {
