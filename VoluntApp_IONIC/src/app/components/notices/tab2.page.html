@@ -9,16 +9,15 @@
   <section>
     @for (new of news; track new.id) {
       <article>
-        <ion-card class="m-4 bg-white">
-          <img style="width: 100%;" alt="{{new.imagen}}" [src]="new.imagen"  />
-          <ion-card-header>
-            <ion-card-title class="text-black fw-bold fs-2">{{new.titulo}}</ion-card-title>
-          </ion-card-header>
-        </ion-card>
+        <app-news-card 
+        [id]="new.id"
+        [imagen]="new.imagen"
+        [titulo]="new.titulo">
+        </app-news-card>
       </article>
     }
-  </section>
 
+  </section>
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content
       loadingText="Cargando mas noticias..."

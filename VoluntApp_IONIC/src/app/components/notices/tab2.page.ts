@@ -5,6 +5,7 @@ import { NewsDTO } from 'src/app/models/dto/NewsDTO';
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { UserService } from 'src/app/services/user.service';
+import { NewsCardComponent } from '../news-card/news-card.component';
 
 @Component({
   selector: 'app-tab2',
@@ -12,7 +13,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['tab2.page.scss'],
   standalone: true,
   providers: [NewsService, UserService],
-  imports: [IonicModule, HttpClientModule],
+  imports: [IonicModule, HttpClientModule, NewsCardComponent],
 })
 
 export class Tab2Page implements OnInit{

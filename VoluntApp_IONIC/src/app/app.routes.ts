@@ -9,5 +9,6 @@ export const routes: Routes = [
     path: '',
     loadChildren: () => import('./components/menu/tabs-routing.module').then( m => m.TabsPageRoutingModule)
   },
+
   
 ];
