@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, numberAttribute } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -12,7 +12,7 @@ import { Router, RouterModule } from '@angular/router';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, DatePipe, RouterModule]
 })
-export class EventCardComponentComponent{
+export class EventCardComponentComponent implements OnInit{
 
   @Input() id: number | null = null;
   @Input() image: string | null = null;
@@ -27,5 +27,27 @@ export class EventCardComponentComponent{
 
   constructor() { }
 
+  currentIndex: number = 0;
+  currentInstitution: string = ''; // Inicialmente mostrar el primer elemento del array
+
+  stringFunction() {
+    if (this.nombreInstituciones) {
+      this.currentInstitution = this.nombreInstituciones[0];
+    }
+  }
+
+  intervalFunction() {
+    if (this.nombreInstituciones) {
+      this.currentIndex = (this.currentIndex + 1) % this.nombreInstituciones.length;
+      this.currentInstitution = this.nombreInstituciones[this.currentIndex];
+    }
+  }
+
+  ngOnInit() {
+    this.stringFunction();
+    setInterval(() => {
+      this.intervalFunction();
+    }, 2000); // Intervalo en milisegundos (por ejemplo, cada segundo)
+  }
 
 }

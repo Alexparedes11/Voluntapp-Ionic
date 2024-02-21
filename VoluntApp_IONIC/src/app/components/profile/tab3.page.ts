@@ -100,7 +100,20 @@ export class Tab3Page implements OnInit {
           console.error('Error fetching user data:', error); // Cambiar 'Error fetching events:' a 'Error fetching user data:'
         }
       );
-  }}
+    }else if (this.tipo == "Institucion") {
+      this.userId = this.userService.getUserIdFromToken();
+
+      this.userService.getUserByIdInstitucion(this.userId).subscribe( // Cambiar profileService a userService
+        (data) => {
+          console.log(data);
+          this.user = data;
+        },
+        (error) => {
+          console.error('Error fetching user data:', error); // Cambiar 'Error fetching events:' a 'Error fetching user data:'
+        }
+      );
+    }
+}
 
   //Boton de alerta para cerrar sesion
 

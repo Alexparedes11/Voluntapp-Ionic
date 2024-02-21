@@ -32,6 +32,7 @@ searchTerm: any;
   events: EventDTO[] = [];
   logueado = false;
   currentPage: number = 0;
+  pages: Array<number> = [];
 
   //Funcion para refrescar la pagina
 
@@ -48,19 +49,6 @@ searchTerm: any;
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 1500);
-  }
-
-  //Funcion para obtener todos los eventos
-
-  private getAllEvents(pageNumber: number = 0) {
-    this.eventService.getEventsByState('disponible', pageNumber).subscribe(
-      (data) => {
-        this.events.push(...data.content);
-      },
-      (error) => {
-        console.error('Error fetching events:', error);
-      }
-    );
   }
 
   //Funcion para volver al login
@@ -94,7 +82,19 @@ searchTerm: any;
   }
 
   ngOnInit(): void {
-    this.getAllEvents();
+    this.eventService.getEventsByState("disponible").subscribe(
+      (data) => {
+        this.events = data.content;
+        console.log(this.events);
+        for (let i = 0; i < data.totalPages; i++) {
+          this.pages.push(i + 1);
+        }
+        this.currentPage = data.pageable.pageNumber;
+      },
+      (error) => {
+        console.error('Error fetching events:', error);
+      }
+    );
     this.logueado = this.userService.isLogged();
 
     if (this.logueado === false) {

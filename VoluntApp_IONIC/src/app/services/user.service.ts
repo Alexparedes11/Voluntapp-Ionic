@@ -85,6 +85,14 @@ export class UserService {
       })
     );
   }
+
+  getUserByIdInstitucion(id: number) {
+    return this.http.get<UserDTO>(`${this.baseUrl}/instituciones/${id}`).pipe(
+      map((data: UserDTO) => {
+        return data;
+      })
+    );
+  }
   sendRegisterCompleteEmail(consulta: any): Observable<any> {
     const url = `${this.baseUrl}/contacto/enviarRegistro`;
     return this.http.post(url, consulta);
