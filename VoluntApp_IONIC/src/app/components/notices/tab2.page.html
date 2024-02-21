@@ -6,7 +6,9 @@
     ></ion-refresher-content>
   </ion-refresher>
 
+
   <section>
+    @if (news.length !== 0) {
     @for (new of news; track new.id) {
       <article>
         <app-news-card 
@@ -16,6 +18,14 @@
         </app-news-card>
       </article>
     }
+  }
+  @else {
+    <ion-card>
+      <ion-card-content>
+        <p class="text-center">No hay noticias</p>
+      </ion-card-content>
+    </ion-card>
+  }
 
   </section>
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
