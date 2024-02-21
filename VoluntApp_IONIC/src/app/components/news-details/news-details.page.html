@@ -1,18 +1,10 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>news-details</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{new.titulo}}</ion-title>
-      <div>
-        <div><img [src]="new.imagen"></div>
-        <div>{{new.contenido}}</div>
-        <div>{{new.fecha}} - {{new.autor}}</div>
+<ion-content>
+  <ion-card>
+      <div class="d-flex flex-column gap-3 m-2">
+        <h1 class="titulo fw-bold">{{new.titulo}}</h1>
+        <div><img [src]="new.imagen" class="img-fluid"></div>
+        <div class="contenido">{{new.contenido}}</div>
+        <div class="d-flex justify-content-end fw-semibold">{{new.fecha}} - {{new.autor}}</div>
       </div>
-    </ion-toolbar>
-  </ion-header>
+  </ion-card>
 </ion-content>
