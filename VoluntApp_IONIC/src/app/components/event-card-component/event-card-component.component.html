@@ -1,13 +1,13 @@
 
-<ion-card [routerLink]="['/menu/event-details',id]" class="bg-white m-3">
+<ion-card [routerLink]="['/menu/event-details',id]" class=" m-3">
   <img style="width: 100%;" alt="{{image}}" src={{image}} />
   <ion-card-header>
-    <ion-card-title class="text-black fw-bold fs-2" >{{title}}</ion-card-title>
+    <ion-card-title class="fs-2 rotura" >{{title}}</ion-card-title>
   </ion-card-header>
 
-  <ion-card-content class="text-black">
+  <ion-card-content>
     <div class="fechas fs-6"><ion-icon name="calendar"></ion-icon> {{startDate | date: 'dd/MM/yyyy'}} - {{endDate | date: 'dd/MM/yyyy'}}</div>
-    <div class="fechas fs-6"><ion-icon name="location-sharp"></ion-icon> {{location}}</div>
+    <div class="fechas fs-6 rotura"><ion-icon name="location-sharp"></ion-icon> {{location}}</div>
   </ion-card-content>
 
   <div class="d-flex justify-content-end m-2">
