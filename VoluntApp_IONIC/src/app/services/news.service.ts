@@ -15,4 +15,12 @@ import { environment } from '../../environments/environment';
         })
       );
     }
+
+    getNewsById(id: number) {
+      return this.http.get(`${this.baseUrl}/noticias/${id}`).pipe(
+        map((data: any) => {
+          return data;
+        })
+      );
+    }
   }

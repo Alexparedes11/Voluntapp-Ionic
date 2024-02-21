@@ -7,7 +7,12 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">news-details</ion-title>
+      <ion-title size="large">{{new.titulo}}</ion-title>
+      <div>
+        <div>{{new.imagen}}</div>
+        <div>{{new.contenido}}</div>
+        <div>{{new.fecha}} - {{new.autor}}</div>
+      </div>
     </ion-toolbar>
   </ion-header>
 </ion-content>

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { NewsService } from 'src/app/services/news.service';
 
 @Component({
   selector: 'app-news-card',
@@ -19,7 +20,11 @@ export class NewsCardComponent  {
   @Input() fecha: Date | null = null;
   @Input() autor: string | null = null;
 
-  constructor() { }
+  constructor(private newsService: NewsService ) { }
 
+  getNewsById(id: number) {
+    return this.newsService.getNewsById(id);
+  }
+  
 
 }
