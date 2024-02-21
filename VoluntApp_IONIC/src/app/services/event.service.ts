@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { EventDTO } from '../models/dto/EventDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  createEvent(data: any) {
+  createEvent(data: EventDTO) {
     return this.http.post(`${this.baseUrl}/eventos`, data);
   }
 
@@ -28,12 +29,72 @@ export class EventService {
     );
   }
 
+  getEventsBySearchQuery(query: string, page?: number) {
+    let params = new HttpParams();
+    if (page !== undefined) {
+      params = params.set('page', page.toString());
+    }
+    return this.http.get(`${this.baseUrl}/eventos/buscar/${query}`, { params }).pipe(
+      map((data: any) => {
+        return data;
+      })
+    );
+  }
+
   getEventsByState(state: string, page?: number) {
     let params = new HttpParams();
     if (page !== undefined) {
       params = params.set('page', page.toString());
     }
-    return this.http.get(`${this.baseUrl}/eventos/buscaporestado/${state}`, { params }).pipe(
+    return this.http.get<EventDTO>(`${this.baseUrl}/eventos/buscaporestado/${state}`, { params }).pipe(
+      map((data: any) => {
+        console.log(data);
+        return data;
+      })
+    );
+  }
+  getEventsOrderByDate(page?: number) {
+    let params = new HttpParams();
+    if (page !== undefined) {
+      params = params.set('page', page.toString());
+    }
+    return this.http.get(`${this.baseUrl}/eventos/ordenarporfecha`, { params }).pipe(
+      map((data: any) => {
+        return data;
+      })
+    );
+  }
+
+  getEventsByDateFilter(finicio: string, ffin: string, page?: number) {
+    let params = new HttpParams();
+    if (page !== undefined) {
+      params = params.set('page', page.toString());
+    }
+    return this.http.get(`${this.baseUrl}/eventos/disponibles-entre-fechas/${finicio}/${ffin}`, { params }).pipe(
+      map((data: any) => {
+        return data;
+      })
+    );
+  }
+
+  getEventsByLocationFilter(location: string, page?: number) {
+    let params = new HttpParams();
+    if (page !== undefined) {
+      params = params.set('page', page.toString());
+    }
+    return this.http.get(`${this.baseUrl}/eventos/ubicacion/disponibles/${location}`, { params }).pipe(
+      map((data: any) => {
+        return data;
+      })
+    );
+  }
+
+  getEventByDateAndLocationFilter(finicio: string, ffin: string, location: string, page?: number) {
+    let params = new HttpParams();
+    if (page !== undefined) {
+      params = params.set('page', page.toString());
+    }
+    return this.http.get(`${this.baseUrl}/eventos/disponibles-entre-fechas-y-ubicacion/${finicio}/${ffin}/${location}`, { params }).pipe(
       map((data: any) => {
         return data;
       })
@@ -54,6 +115,14 @@ export class EventService {
     );
   }
 
+  getEventsByInstitution(id: number) {
+    return this.http.get(`${this.baseUrl}/eventos/institucion/${id}`).pipe(
+      map((data: any) => {
+        return data;
+      })
+    );
+  }
+
   getEventsCreatedByUser(id: number) {
     return this.http.get(`${this.baseUrl}/eventos/creadoPorUsuario/${id}`).pipe(
       map((data: any) => {
@@ -62,8 +131,24 @@ export class EventService {
     );
   }
 
+  getEventsCreatedByInstitution(id: number) {
+    return this.http.get(`${this.baseUrl}/eventos/creadoPorInstitucion/${id}`).pipe(
+      map((data: any) => {
+        return data;
+      })
+    );
+  }
+
   getEventById(id: number) {
     return this.http.get(`${this.baseUrl}/eventos/${id}`).pipe(
+      map((data: any) => {
+        return data;
+      })
+    );
+  }
+
+  getEventDTOById(id: number) {
+    return this.http.get(`${this.baseUrl}/eventosDTO/${id}`).pipe(
       map((data: any) => {
         return data;
       })
@@ -82,12 +167,33 @@ export class EventService {
     );
   }
 
+  isInstitucionInEvent(idInstitution: number, idEvent: number) {
+    const body = {
+      id_institucion: idInstitution,
+      id_evento: idEvent
+    };
+    return this.http.post(`${this.baseUrl}/eventos/isInstitutionInEvento`, body).pipe(
+      map((data: any) => {
+        return data;
+      })
+    ); 
+  }
+
   addUserToEvent(idUser: number, idEvent: number) {
     const body = {
       id_usuario: idUser,
       id_evento: idEvent
     };
     return this.http.post(`${this.baseUrl}/eventos/apuntar-usuario`, body);
+  }
+
+  addInstitutionToEvent(idInstitution: number, idEvent: number) {
+    console.log("La id del evento es la siguiente: " + idEvent + " y la de la institucion: " + idInstitution);
+    const body = {
+      id_institucion: idInstitution,
+      id_evento: idEvent
+    };
+    return this.http.post(`${this.baseUrl}/eventos/apuntar-institucion`, body);
   }
 
   removeUserFromEvent(idUser: number, idEvent: number) {
@@ -98,9 +204,28 @@ export class EventService {
     return this.http.post(`${this.baseUrl}/eventos/desapuntar-usuario`, body);
   }
   
+  removeInstitutionFromEvent(idInstitution: number, idEvent: number) {
+    const body = {
+      id_institucion: idInstitution,
+      id_evento: idEvent
+    };
+    return this.http.post(`${this.baseUrl}/eventos/desapuntar-institucion`, body);
+  }
+
   isUserCreator(idUser: number, idEvent: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.baseUrl}/eventos/esCreador/${idUser}/${idEvent}`);
   }
+
+
+  sendDeleteRequest(consulta: any): Observable<any> {
+    const url = `${this.baseUrl}/contacto/enviarSolicitud`;
+    return this.http.post(url, consulta);
+  }
+
+  sendDeniedRequest(consulta: any): Observable<any> {
+    const url = `${this.baseUrl}/contacto/enviarRespuestaDenegada`;
+    return this.http.post(url, consulta);
+  } 
 
   obtenerEventosPerfil(id: number) {
     return this.http.get(`${this.baseUrl}/eventos/profile/${id}`).pipe(
@@ -110,4 +235,13 @@ export class EventService {
     );
   }
 
+  ordenarporvoluntarios() {
+    return this.http.get(`${this.baseUrl}/eventos/ordenarporvoluntarios`);
+  }
+  ordenarporfechaProxima() {
+    return this.http.get(`${this.baseUrl}/eventos/ordenarporfechaProxima`);
+  }
+  ordenarporfechaAntigua() {
+    return this.http.get(`${this.baseUrl}/eventos/ordenarporfechaAntigua`);
+  }
 }

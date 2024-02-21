@@ -1,11 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CookieService } from 'ngx-cookie-service';
-import { map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { User } from '../models/User';
-import { EventDTO } from '../models/dto/EventDTO';
 import { UserDTO } from '../models/dto/UserDTO';
 
 @Injectable({
@@ -13,30 +11,51 @@ import { UserDTO } from '../models/dto/UserDTO';
 })
 export class UserService {
 
-    private baseUrl = environment.server.ip + ':' + environment.server.port;
+  private baseUrl = environment.server.ip + ':' + environment.server.port;
 
-    constructor(private cookieService: CookieService, private http: HttpClient) { }
+  constructor(private cookieService: CookieService, private http: HttpClient) { }
 
-    login(data: any) {
-      return this.http.post(`${this.baseUrl}/login`, data)
-    }
+  login(data: any) {
+    return this.http.post(`${this.baseUrl}/login`, data)
+  }
 
-    register(data: any) {
-      return this.http.post(`${this.baseUrl}/usuarios`, data)
-    }
+  register(data: any) {
+    return this.http.post(`${this.baseUrl}/usuarios`, data)
+  }
 
-    logout() {
+  edit(id: number, user: any) {
+    return this.http.put(`${this.baseUrl}/usuarios/${id}`, user).pipe(
+      map((data: any) => {
+        return data;
+      })
+    );
+  }
+
+  logout() {
     this.cookieService.delete('token');
-    }
+  }
 
   getUserIdFromToken(): number {
     const token = this.cookieService.get('token');
     if (token) {
       const jwtHelper = new JwtHelperService();
       const decodedToken = jwtHelper.decodeToken(token);
+      
       return decodedToken.sub;
     }
     return -1;
+  }
+
+  getUserTypeFromToken(): string {
+    const token = this.cookieService.get('token');
+    if (token) {
+      const jwtHelper = new JwtHelperService();
+      const decodedToken = jwtHelper.decodeToken(token);
+      return decodedToken.Tipo;
+    } else {
+      return "Error";
+    }
+
   }
 
   isAdmin(): boolean {
@@ -58,14 +77,6 @@ export class UserService {
     }
     return false;
   }
-  
-  getUserDTOById(id: number) {
-    return this.http.get<EventDTO>(`${this.baseUrl}/usuarios/${id}`).pipe(
-      map((data: EventDTO) => {
-        return data;
-      })
-    );
-  }
 
   getUserById(id: number) {
     return this.http.get<UserDTO>(`${this.baseUrl}/usuarios/${id}`).pipe(
@@ -74,4 +85,32 @@ export class UserService {
       })
     );
   }
+  sendRegisterCompleteEmail(consulta: any): Observable<any> {
+    const url = `${this.baseUrl}/contacto/enviarRegistro`;
+    return this.http.post(url, consulta);
+}
+isEmailInDB(email: string) {
+  const params = new HttpParams().set('email', email);
+  return this.http.get(`${this.baseUrl}/usuarios/username`, { params }).pipe(
+    map((data: any) => {
+      return data;
+    })
+  );
+}
+  passwordRecovery(data: any): Observable<any> {
+    const url = `${this.baseUrl}/contacto/passwordRecovery`;
+    return this.http.post(url, data);
+  }
+
+  editPasswordByEmail(email: string, password: string) {
+    const url = `${this.baseUrl}/usuarios/password/${email}`;
+    const body = { password };
+    return this.http.put(url, body).pipe(
+      map((data: any) => {
+        return data;
+      })
+    );
+  }
+
+
 }

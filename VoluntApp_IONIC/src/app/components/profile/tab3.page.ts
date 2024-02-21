@@ -5,7 +5,6 @@ import { EventDTO } from 'src/app/models/dto/EventDTO';
 import { NumeroDeEventosDTO } from 'src/app/models/dto/NumeroDeEventosDTO';
 import { UserDTO } from 'src/app/models/dto/UserDTO';
 import { EventService } from 'src/app/services/event.service';
-import { ProfileService } from 'src/app/services/profile.service';
 import { UserService } from 'src/app/services/user.service';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
@@ -15,13 +14,12 @@ import { RouterModule } from '@angular/router';
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
   standalone: true,
-  providers: [ProfileService, UserService, EventService],
+  providers: [UserService, EventService],
   imports: [HttpClientModule, NgIf, NgClass, IonicModule, RouterModule],
 })
 
 export class Tab3Page implements OnInit {
   constructor(
-    private profileService: ProfileService,
     private userService: UserService,
     private eventoService: EventService
   ) {}
@@ -63,7 +61,7 @@ export class Tab3Page implements OnInit {
       }
     );
 
-    this.profileService.getData(this.userId).subscribe(
+    this.userService.getUserById(this.userId).subscribe(
       (data) => {
         console.log(data);
         this.user = data;
