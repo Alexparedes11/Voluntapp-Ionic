@@ -8,6 +8,7 @@ import { EventService } from 'src/app/services/event.service';
 import { UserService } from 'src/app/services/user.service';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
+import { InstitucionDTO } from 'src/app/models/dto/InstitucionDTO';
 
 @Component({
   selector: 'app-tab3',
@@ -30,10 +31,12 @@ export class Tab3Page implements OnInit {
   tipo: string = "";
   editarperfil: boolean = false;
   user: UserDTO = {} as UserDTO;
+  userIn: InstitucionDTO = {} as InstitucionDTO;
   event: EventDTO[] = [];
   editedUser: UserDTO | null = null;
   eventosPerfil: NumeroDeEventosDTO = {} as NumeroDeEventosDTO;
   logueado = false;
+  usuario = false;
 
   //Funcion cerrar sesion
 
@@ -79,6 +82,8 @@ export class Tab3Page implements OnInit {
 
     if (this.tipo == "Usuario") {
 
+      this.usuario = true;
+
       this.userId = this.userService.getUserIdFromToken();
 
       this.eventoService.obtenerEventosPerfil(this.userId).subscribe(
@@ -100,16 +105,16 @@ export class Tab3Page implements OnInit {
           console.error('Error fetching user data:', error); // Cambiar 'Error fetching events:' a 'Error fetching user data:'
         }
       );
-    }else if (this.tipo == "Institucion") {
+    } else if (this.tipo == "Institucion") {
       this.userId = this.userService.getUserIdFromToken();
 
-      this.userService.getUserByIdInstitucion(this.userId).subscribe( // Cambiar profileService a userService
-        (data) => {
+      this.userService.getUserByIdInstitucion(this.userId).subscribe(
+        (data: InstitucionDTO) => { // Update the type of data to InstitucionDTO
           console.log(data);
-          this.user = data;
+          this.userIn = data; // Assign data directly to userIn
         },
         (error) => {
-          console.error('Error fetching user data:', error); // Cambiar 'Error fetching events:' a 'Error fetching user data:'
+          console.error('Error fetching user data:', error);
         }
       );
     }

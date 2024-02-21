@@ -9,21 +9,36 @@
         </div>
       </div>
       <div class="align-items-center d-flex flex-column text-white gap-3 margen">
-        <h2 class="text-center sombras fw-bold">{{user.nombre}} {{user.apellidos}}</h2>
-        <div class="row">
-          <div class="col-s-auto">
-            <h5 class="text-center text-primary fw-bold">{{eventosPerfil.creados}}</h5>
-            <h5 class="text-center">Eventos Creados</h5>
+        @if (usuario === true) {
+        <ion-card-title class="text-center fs-1 fw-bold">{{user.nombre}} {{user.apellidos}}</ion-card-title>
+        
+          <div class="row">
+            <div class="col-s-auto">
+              <ion-card-subtitle class="text-center fs-5 text-primary fw-bold">{{eventosPerfil.creados}}</ion-card-subtitle>
+              <ion-card-subtitle class="text-center fs-5">Eventos Creados</ion-card-subtitle>
+            </div>
+            <div class="col-s-auto">
+              <ion-card-subtitle class="text-center fs-5 text-primary fw-bold">{{eventosPerfil.apuntados}}</ion-card-subtitle>
+              <ion-card-subtitle class="text-center fs-5">Eventos Apuntados</ion-card-subtitle>
+            </div>
+            <div class="col-s-auto">
+              <ion-card-subtitle class="text-center fs-5 text-primary fw-bold">{{eventosPerfil.realizados}}</ion-card-subtitle>
+              <ion-card-subtitle class="text-center fs-5">Eventos Realizados</ion-card-subtitle>
+            </div>
           </div>
-          <div class="col-s-auto">
-            <h5 class="text-center text-primary fw-bold">{{eventosPerfil.apuntados}}</h5>
-            <h5 class="text-center">Eventos Apuntados</h5>
+        } @else {
+          <ion-card-title class="text-center fs-1 fw-bold">{{user.nombreLegal}}</ion-card-title>
+          <div class="row">
+            <div class="col-s-auto">
+              <ion-card-subtitle class="fs-5 text-center">Encargado: {{user.personaCargo}}</ion-card-subtitle>
+            </div>
+            <div class="col-s-auto">
+              <ion-card-subtitle class="fs-5 text-center">Telefono: {{user.telefono}}</ion-card-subtitle>
+            </div>
           </div>
-          <div class="col-s-auto">
-            <h5 class="text-center text-primary fw-bold">{{eventosPerfil.realizados}}</h5>
-            <h5 class="text-center">Eventos Realizados</h5>
-          </div>
-        </div>
+          
+        }
+        
 
       <ion-button id="present-alert" class="mt-4">Cerrar sesion</ion-button>
       <ion-alert trigger="present-alert" class="custom-alert" header="¿Quieres cerrar sesion?" [buttons]="alertButtons"></ion-alert>

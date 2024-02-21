@@ -8,4 +8,8 @@ export interface UserDTO {
     fotoBanner: string;
     dni: string;
     direccion: string;
+    personaCargo: string;
+    nombreLegal: string;
+    cif: string;
+
 }
