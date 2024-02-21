@@ -55,6 +55,10 @@ export class EventDetailsPage implements OnInit {
     window.location.href = '/login';
   }
 
+  volverhome() {
+    this.router.navigate(['/menu/home']);
+  }
+
   //Funcion para apuntarse a un evento 
 
   addUserToEvent() {
@@ -119,9 +123,7 @@ export class EventDetailsPage implements OnInit {
     this.isLogged = this.userService.isLogged();
 
     console.log(this.tipo);
-
     
-
     if (this.isLogged === false) {
       this.volverlogin();
     }
@@ -189,6 +191,7 @@ export class EventDetailsPage implements OnInit {
       handler: () => {
         console.log('Alert confirmed');
         this.addUserToEvent();
+        this.volverhome();
       },
     },
   ];
@@ -207,6 +210,7 @@ export class EventDetailsPage implements OnInit {
       handler: () => {
         console.log('Alert confirmed');
         this.removeUserFromEvent();
+        this.volverhome();
       },
     },
   ];
@@ -225,6 +229,7 @@ export class EventDetailsPage implements OnInit {
       handler: () => {
         console.log('Alert confirmed');
         this.addInstitucionToEvent();
+        this.volverhome();
       },
     },
   ];
@@ -243,6 +248,7 @@ export class EventDetailsPage implements OnInit {
       handler: () => {
         console.log('Alert confirmed');
         this.removeInstitucionFromEvent();
+        this.volverhome();
       },
     },
   ];
