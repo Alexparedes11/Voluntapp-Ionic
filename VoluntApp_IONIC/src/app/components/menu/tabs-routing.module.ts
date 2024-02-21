@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { EventDetailsPage } from '../event-details/event-details.page';
 
 
 export const routes: Routes = [
@@ -38,6 +39,14 @@ export const routes: Routes = [
           }
         ]
       },
+      {
+        path: 'event-details/:id',
+        component: EventDetailsPage,
+      },
+      // {
+      //   path: 'news-details/:id',
+      //   component: NewsDetailsPage,
+      // },
       {
         path: '',
         redirectTo: '/menu/home',
