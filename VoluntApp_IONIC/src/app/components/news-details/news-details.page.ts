@@ -1,26 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { NewsDTO } from 'src/app/models/dto/NewsDTO';
 import { NewsService } from 'src/app/services/news.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ActivatedRoute, Route } from '@angular/router';
 
 @Component({
   selector: 'app-news-details',
   templateUrl: './news-details.page.html',
   styleUrls: ['./news-details.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule,  HttpClientModule]
+  providers: [NewsService],
+  imports: [IonicModule, CommonModule,  HttpClientModule]
 })
 export class NewsDetailsPage implements OnInit {
-  constructor(private newsService: NewsService) { }
+  id: any;
+  constructor(private newsService: NewsService, private activatedRoute: ActivatedRoute) { }
   new: NewsDTO = {} as NewsDTO;
-  newService: any;
   
 
   ngOnInit() {
-    this.newService.getNewsById(1).subscribe(
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.newsService.getNewsById(this.id).subscribe(
       (data: NewsDTO) => {
         this.new = data;
       },
