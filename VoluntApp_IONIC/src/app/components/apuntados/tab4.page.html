@@ -1,17 +1,12 @@
 @if (logueado === true){
 
 <ion-content>
-
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <section>
-
-  @if (events.length !== 0) {
-    
-      
-    @for (event of events; track event.id) {
+    @if (events.length !== 0) { @for (event of events; track event.id) {
 
     <div class="col">
       <app-event-card-component
@@ -28,19 +23,24 @@
       ></app-event-card-component>
     </div>
 
-    }
-
-  
-  } @else {
+    } } @else 
+    { @if (tipo === "Usuario") {
     <div class="continer text-center p-3 mt-5">
-  <h1 class="text-center text-white fw-bold mt-5">
-    No estas apuntado en ningun evento
-  </h1>
-  <a href="/menu/home" class="btn btn-primary text-white">Busca alguno</a>
-</div>
-}
+      <h1 class="text-center text-white fw-bold mt-5">
+        No estas apuntado en ningun evento
+      </h1>
+      <a href="/menu/home" class="btn btn-primary text-white">Busca alguno</a>
+    </div>
+    } @else {
+    <div class="continer text-center p-3 mt-5">
+      <h1 class="text-center text-white fw-bold mt-5">
+        No estas apoyando ningun evento
+      </h1>
+      <a href="/menu/home" class="btn btn-primary text-white">Apoya alguno</a>
+    </div>
+    } }
 
-</section>
+  </section>
 
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content

@@ -8,7 +8,6 @@ import { TabsPageModule } from 'src/app/components/menu/tabs.module';
 import { EventCardComponentComponent } from '../event-card-component/event-card-component.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { UserService } from 'src/app/services/user.service';
-import {Ng2SearchPipeModule} from 'ng2-search-filter';
 
 @Component({
   selector: 'app-tab1',

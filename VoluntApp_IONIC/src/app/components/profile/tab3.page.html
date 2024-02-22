@@ -1,6 +1,7 @@
 @if (logueado === true){
 
 <ion-content>
+  @if (usuario === true) {
     <div class="d-flex flex-column align-items-center">
         <img [src]="user.fotoBanner" class="img-fluid imagenbanner" alt="Foto banner perfil" />
         <div class="editarperfil text-center d-flex align-items-center flex-column">
@@ -9,7 +10,7 @@
         </div>
       </div>
       <div class="align-items-center d-flex flex-column text-white gap-3 margen">
-        @if (usuario === true) {
+        
         <ion-card-title class="text-center fs-1 fw-bold">{{user.nombre}} {{user.apellidos}}</ion-card-title>
         
           <div class="row">
@@ -26,23 +27,34 @@
               <ion-card-subtitle class="text-center fs-5">Eventos Realizados</ion-card-subtitle>
             </div>
           </div>
-        } @else {
-          <ion-card-title class="text-center fs-1 fw-bold">{{user.nombreLegal}}</ion-card-title>
-          <div class="row">
-            <div class="col-s-auto">
-              <ion-card-subtitle class="fs-5 text-center">Encargado: {{user.personaCargo}}</ion-card-subtitle>
-            </div>
-            <div class="col-s-auto">
-              <ion-card-subtitle class="fs-5 text-center">Telefono: {{user.telefono}}</ion-card-subtitle>
-            </div>
-          </div>
-          
-        }
-        
-
-      <ion-button id="present-alert" class="mt-4">Cerrar sesion</ion-button>
+          <ion-button id="present-alert" class="mt-4">Cerrar sesion</ion-button>
       <ion-alert trigger="present-alert" class="custom-alert" header="¿Quieres cerrar sesion?" [buttons]="alertButtons"></ion-alert>
     </div>
+        } @else {
+
+          <div class="d-flex flex-column align-items-center">
+            <img [src]="userIn.fotoBanner" class="img-fluid imagenbanner" alt="Foto banner perfil" />
+            <div class="editarperfil text-center d-flex align-items-center flex-column">
+              <img [src]="userIn.fotoPerfil" class="rounded-circle img-perfil"
+                style="position: absolute; transform: translateY(-50%);" alt="Imagen de perfil" />
+            </div>
+          </div>
+          <div class="align-items-center d-flex flex-column text-white gap-3 margen">
+          <ion-card-title class="text-center fs-1 fw-bold">{{userIn.nombreLegal}}</ion-card-title>
+          <div class="row">
+            <div class="col-s-auto">
+              <ion-card-subtitle class="fs-5 text-center">Encargado: {{userIn.personaCargo}}</ion-card-subtitle>
+            </div>
+            <div class="col-s-auto">
+              <ion-card-subtitle class="fs-5 text-center">Telefono: {{userIn.telefono}}</ion-card-subtitle>
+            </div>
+          </div>
+          <ion-button id="present-alert" class="mt-4">Cerrar sesion</ion-button>
+      <ion-alert trigger="present-alert" class="custom-alert" header="¿Quieres cerrar sesion?" [buttons]="alertButtons"></ion-alert>
+    </div>
+          
+        }
+
 </ion-content>
 
 }

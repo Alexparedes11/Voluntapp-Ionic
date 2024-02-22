@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [IonicModule, EventCardComponentComponent, HttpClientModule]
 })
 export class TabsPage implements OnInit{
+  tipo: string = "";
 
   constructor(private userService: UserService) {}
 
@@ -24,8 +25,8 @@ export class TabsPage implements OnInit{
   }
 
   ngOnInit(): void {
-
-  this.logueado = this.userService.isLogged();
+    this.tipo = this.userService.getUserTypeFromToken();
+    this.logueado = this.userService.isLogged();
 
     if (this.logueado === false) {
       this.volverlogin();

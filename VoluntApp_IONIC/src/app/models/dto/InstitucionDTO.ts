@@ -7,4 +7,7 @@ export interface InstitucionDTO {
     email: string;
     direccion: string;
     cif: string;
+    fotoPerfil: string;
+    fotoBanner: string;
+    
 }
