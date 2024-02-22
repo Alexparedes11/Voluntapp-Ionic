@@ -106,6 +106,7 @@ export class Tab3Page implements OnInit {
         }
       );
     } else if (this.tipo == "Institucion") {
+
       this.userId = this.userService.getUserIdFromToken();
 
       this.userService.getUserByIdInstitucion(this.userId).subscribe(

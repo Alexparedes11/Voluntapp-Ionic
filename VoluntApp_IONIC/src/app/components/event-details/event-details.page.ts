@@ -15,15 +15,24 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrls: ['./event-details.page.scss'],
   standalone: true,
   providers: [EventService, UserService],
-  imports: [IonicModule, CommonModule, FormsModule, MapComponent,  HttpClientModule]
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    MapComponent,
+    HttpClientModule,
+  ],
 })
 export class EventDetailsPage implements OnInit {
+  constructor(
+    private eventService: EventService,
+    private userService: UserService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
-  constructor(private eventService: EventService, private userService: UserService, 
-              private router: Router, private activatedRoute: ActivatedRoute) { }
-
-  id: any;          
-  tipo: string = "";
+  id: any;
+  tipo: string = '';
   userId: number = -1;
   isUserInEvent: boolean = false;
   isInstitucionInEvent: boolean = false;
@@ -57,9 +66,10 @@ export class EventDetailsPage implements OnInit {
 
   volverhome() {
     this.router.navigate(['/menu/home']);
+    location.reload();
   }
 
-  //Funcion para apuntarse a un evento 
+  //Funcion para apuntarse a un evento
 
   addUserToEvent() {
     this.eventService.addUserToEvent(this.userId, this.id).subscribe(
@@ -104,14 +114,16 @@ export class EventDetailsPage implements OnInit {
   //Funcion para desapoyar a un evento
 
   removeInstitucionFromEvent() {
-    this.eventService.removeInstitutionFromEvent(this.userId, this.id).subscribe(
-      (data) => {
-        return data;
-      },
-      (error) => {
-        console.error('Error fetching events:', error);
-      }
-    );
+    this.eventService
+      .removeInstitutionFromEvent(this.userId, this.id)
+      .subscribe(
+        (data) => {
+          return data;
+        },
+        (error) => {
+          console.error('Error fetching events:', error);
+        }
+      );
     this.isInstitucionInEvent = false;
   }
 
@@ -123,7 +135,7 @@ export class EventDetailsPage implements OnInit {
     this.isLogged = this.userService.isLogged();
 
     console.log(this.tipo);
-    
+
     if (this.isLogged === false) {
       this.volverlogin();
     }
@@ -138,9 +150,7 @@ export class EventDetailsPage implements OnInit {
     );
 
     if (this.isLogged) {
-
-      if (!this.isAdmin && this.tipo == "Usuario") {
-
+      if (!this.isAdmin && this.tipo == 'Usuario') {
         this.eventService.isUserInEvent(this.userId, this.id).subscribe(
           (data) => {
             this.isUserInEvent = data;
@@ -148,7 +158,6 @@ export class EventDetailsPage implements OnInit {
           (error) => {
             console.error('Error fetching events:', error);
           }
-
         );
 
         this.eventService.isUserCreator(this.userId, this.id).subscribe(
@@ -160,8 +169,7 @@ export class EventDetailsPage implements OnInit {
           (error) => {
             console.error('Error fetching events:', error);
           }
-        )
-
+        );
       } else {
         this.eventService.isInstitucionInEvent(this.userId, this.id).subscribe(
           (data) => {
@@ -170,7 +178,7 @@ export class EventDetailsPage implements OnInit {
           (error) => {
             console.log('Error fetching events: ', error);
           }
-        )
+        );
       }
     }
   }
@@ -234,7 +242,7 @@ export class EventDetailsPage implements OnInit {
     },
   ];
 
-  public alertDesapoyar= [
+  public alertDesapoyar = [
     {
       text: 'No',
       role: 'cancel',

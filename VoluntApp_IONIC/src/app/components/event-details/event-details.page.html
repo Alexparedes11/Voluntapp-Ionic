@@ -62,10 +62,10 @@
 
                 @if (isInstitucionInEvent) {
                     <button id="desapoyar" class="btn bg-error-light text-white w-100">Dejar de apoyar</button>
-                    <ion-alert id="desapoyar" trigger="apuntarse" class="custom-alert" header="¿Quieres dejar de apoyar el evento?" [buttons]="alertDesapoyar"></ion-alert>
+                    <ion-alert trigger="desapoyar" class="custom-alert" header="¿Quieres dejar de apoyar el evento?" [buttons]="alertDesapoyar"></ion-alert>
                 } @else if (tipo === "Institucion") {
                     <button id="apoyar" class="btn bg-secondary text-white w-100">Apoyar Evento</button>
-                    <ion-alert trigger="apoyar" class="custom-alert bg-white" header="¿Quieres apoyar el evento?" [buttons]="alertApoyar"></ion-alert>
+                    <ion-alert trigger="apoyar" class="custom-alert" header="¿Quieres apoyar el evento?" [buttons]="alertApoyar"></ion-alert>
                 }
             }
             @else {
